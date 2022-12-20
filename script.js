@@ -81,12 +81,38 @@ async function buscarVehiculos() {
     
   }
 
+  const respuesta2 = await fetch("https://api.metro.net/LACMTA_Rail/vehicle_positions/all?geojson=false")
+  const trenes = await respuesta2.json()
+  for (let j = 0;  j < trenes.length; j++) {
+    const posicionLatTrain = await trenes[j].position.latitude
+    const posicionLonTrain = await trenes[j].position.longitude
+    const train = await trenes[j].vehicle.vehicle_id
+   /*  console.log(posicionLat)
+    console.log(posicionLon) */
+    console.log(train)
+
+    const marker2 = L.marker([posicionLatTrain, posicionLonTrain]).addTo(map);//marcador
+    marker2.bindPopup(`${train}`).openPopup();
+    
+  }
+
 
 
  
 }
 
 buscarVehiculos()
+
+
+
+  
+
+/* function repetirCadaSegundo() {
+  let identificadorIT
+  identificadorIT = setInterval(buscarVehiculos, 80000);
+}
+
+repetirCadaSegundo()  */
 
 
 
